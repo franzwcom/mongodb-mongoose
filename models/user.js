@@ -39,7 +39,7 @@ UserSchema.pre('save', function() {
      * making the hash
      */
                       // holy shiet !!!!!! here  !!!!!!!
-    bcrypt.hash(user.password, function(err, hash) {
+    bcrypt.hash(user.password, null, null,  function(err, hash) {
         if (err) return next(err);
         // hashing this
         user.password = hash;
@@ -51,9 +51,10 @@ UserSchema.pre('save', function() {
 //  compare the hash
 UserSchema.methods.comparePassword = function(password) {
     var user = this;
-    return bcrypt.comparesync(password, user.password);
+    return bcrypt.compareSync(password, user.password);
 };
 
 // exporting ...
 
 module.exports = mongoose.model('User', UserSchema);
+

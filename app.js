@@ -40,12 +40,9 @@
      console.log("MongoDB connection established to " + dbname);
  });
 
-
-
  app.get('/', function(req, res) {
      res.send('welcome to API');
  });
-
 
  /*____________________ user _____________________*/
  var User = require('./models/user');
@@ -83,17 +80,10 @@
 
  /*
   * users
+  * http://localhost:1337/api/users
   */
-
-
- apiRouter.route('/users')
-
- //.post()
  //.put()
  //.delete();
-
-
-
  apiRouter.route('/users')
 
  .post(function(req, res) {
@@ -121,24 +111,61 @@
          }); // end --save()
 
      }) // end post -------------------------
- .get(function(req, res) {
-     User.find(function(err, users) {
-         if (err) res.send(err);
-         res.json(users);
+     .get(function(req, res) {
+         User.find(function(err, users) {
+             if (err) res.send(err);
+             res.json(users);
+         });
+     }); // end get
+
+ /*
+  * single user
+  * http://localhost:1337/api/users/:user_id
+  */
+ apiRouter.route('/users/:user_id')
+     .get(function(req, res) {
+         User.findById(req.params.user_id, function(err, user) {
+             if (err) res.send(err);
+             // return the user
+             res.json(user);
+         });
+     }) // end user -------------
+
+ .put(function(req, res) {
+         User.findById(req.params.user_id, function(err, user) {
+             if (err) res.send(err);
+
+             if (req.body.name) user.name = req.body.name;
+             if (req.body.username) user.username = req.body.username;
+             if (req.body.password) user.password = req.body.password;
+
+             // saving the user
+             user.save(function(err) {
+                 if (err) res.send(err);
+                 // returning a message
+                 res.json({
+                     message: 'User updated !'
+                 });
+             });
+         }); // end user.find ----------
+
+     }) // end put ------------------
+
+ .delete(function(req, res) {
+     User.remove({
+         _id: req.params.user_id
+     }, function(err, user) {
+         if (err) return res.send(err);
+         res.json({
+             message: 'Successfully deleted !'
+         });
      });
- }); // end get
-
-
-
-
-
-
+ });
 
  // apply the routes to the app
  app.use('/', basicRouter);
  app.use('/admin', adminRouter);
  app.use('/api', apiRouter);
-
 
  // starting the server
  app.listen(1337);
