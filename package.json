@@ -1,0 +1,26 @@
+{
+  "name": "mongodb-mongoose",
+  "version": "1.0.0",
+  "description": "connection to mongodb with monsgoose",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/franzwcom/mongodb-mongoose.git"
+  },
+  "author": "franzw.com",
+  "license": "yes",
+  "bugs": {
+    "url": "https://github.com/franzwcom/mongodb-mongoose/issues"
+  },
+  "homepage": "https://github.com/franzwcom/mongodb-mongoose",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.12.2",
+    "express": "^4.12.3",
+    "mongoose": "^4.0.1",
+    "morgan": "^1.5.2"
+  }
+}
