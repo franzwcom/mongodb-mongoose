@@ -17,14 +17,14 @@
      extended: true
  }));
  app.use(bodyParser.json());
-/*
- * configure the app to handle CORS requests
- */
-  app.use(function(req, res, next) {
+ /*
+  * configure the app to handle CORS requests
+  */
+ app.use(function(req, res, next) {
      res.header('Access-Control-Allow-Origin', '*')
-        res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization')
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE')
-        next();
+     res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization')
+     res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE')
+     next();
  });
 
 
@@ -42,13 +42,13 @@
 
 
 
-app.get('/', function(req, res){
-  res.send('welcome to API');
-});
+ app.get('/', function(req, res) {
+     res.send('welcome to API');
+ });
 
 
-/*____________________ user _____________________*/
-var User = require('./models/user');
+ /*____________________ user _____________________*/
+ var User = require('./models/user');
  /*
   * routes for the api
   */
@@ -80,6 +80,59 @@ var User = require('./models/user');
          message: 'welcome to the API'
      });
  });
+
+ /*
+  * users
+  */
+
+
+ apiRouter.route('/users')
+
+ //.post()
+ //.put()
+ //.delete();
+
+
+
+ apiRouter.route('/users')
+
+ .post(function(req, res) {
+         // new user
+         var user = new User(); // holy shiet """"""
+         user.name = req.body.name;
+         user.username = req.body.username;
+         user.password = req.body.password;
+
+         user.save(function(err) {
+             if (err) {
+                 if (err.code = 11000)
+                     return res.json({
+                         success: false,
+                         message: 'user exists here !'
+                     });
+                 else
+                     return res.send(err);
+
+             }
+             res.json({
+                 message: "user created !"
+             });
+
+         }); // end --save()
+
+     }) // end post -------------------------
+ .get(function(req, res) {
+     User.find(function(err, users) {
+         if (err) res.send(err);
+         res.json(users);
+     });
+ }); // end get
+
+
+
+
+
+
 
  // apply the routes to the app
  app.use('/', basicRouter);
